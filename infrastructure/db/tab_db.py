@@ -1,24 +1,15 @@
-import pymysql.cursors
+import sqlalchemy
+from sqlalchemy import text
+
+engine = sqlalchemy.create_engine("mysql+mysqldb://gervasgu:gervasgu@0.0.0.0/FoodOps")
 
 
-def get_connection():
-    return pymysql.connect(
-        host="0.0.0.0",
-        user="gervasgu",
-        password="gervasgu",
-        database="FoodOps",
-        autocommit=True,
-        cursorclass=pymysql.cursors.DictCursor,
-    )
-
-
-def execute_query(query, params=None):
-    with get_connection() as connection:
-        with connection.cursor() as cursor:
-            cursor.execute(query, params or ())
-            return cursor.fetchall()
+def execute_raw_query(raw_query, params=None):
+    with engine.connect() as connection:
+        result = connection.execute(text(raw_query))
+        return result.mappings().all()
 
 
 def get_all_tabs():
     sql = "select * from Tab"
-    return execute_query(sql)
+    return execute_raw_query(sql)
