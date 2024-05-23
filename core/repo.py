@@ -1,4 +1,4 @@
-from ..infrastructure.db import tab_db
+from infrastructure.db import tab_db
 
 
 def get_all_tabs():
