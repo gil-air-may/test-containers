@@ -30,6 +30,7 @@ jobs:
         coverage run -m pytest
         coverage xml
         coverage-badge -o coverage.svg
+        ls -a
 
     - name: Setup Git for Pages
       run: |
