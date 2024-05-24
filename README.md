@@ -1,6 +1,6 @@
 # Your Project
 
-![Coverage](https://gilairmay.github.io/test-containers/coverage.svg)
+![Coverage](https://gil-air-may.github.io/test-containers/coverage.svg)
 
 ## Description
 
