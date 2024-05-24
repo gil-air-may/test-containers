@@ -48,6 +48,6 @@ jobs:
       run: |
         git add coverage.svg
         git commit -m "Update coverage badge"
-        git push origin gh-pages
+        git push --force origin gh-pages
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
