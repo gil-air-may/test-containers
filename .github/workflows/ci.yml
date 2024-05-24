@@ -30,7 +30,10 @@ jobs:
         coverage run -m pytest
         coverage xml
         coverage-badge -o coverage.svg
-        ls -a
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage-image
+          path: coverage.svg
 
     - name: Setup Git for Pages
       run: |
@@ -38,11 +41,13 @@ jobs:
         git config --global user.name "github-actions[bot]"
 
     - name: Checkout gh-pages branch
+    - uses: actions/download-artifact@v4
+      with:
+        name: coverage-image
       run: |
         git fetch origin
         git checkout gh-pages || git checkout --orphan gh-pages
-        rm -rf *
-        ls -a ../test-containers
+        ls -a
         cp coverage.svg .
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
