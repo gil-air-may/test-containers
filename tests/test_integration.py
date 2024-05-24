@@ -43,7 +43,7 @@ def get_all_tabs():
 
 
 def test_simple_query():
-    print(get_all_tabs())
+    assert len(get_all_tabs()) == 1
 
 
 def test_read_main():
