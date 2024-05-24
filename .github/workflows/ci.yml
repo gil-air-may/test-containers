@@ -39,9 +39,11 @@ jobs:
     - name: Checkout gh-pages branch
 
       run: |
-        git fetch origin
-        git checkout gh-pages || git checkout --orphan gh-pages
-        ls -a
+        git stash
+        git checkout gh-pages
+        git pull
+        git stash apply
+        git stash drop
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
