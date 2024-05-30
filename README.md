@@ -63,5 +63,3 @@ Contributions are welcome! Please open an issue or submit a pull request.
 This project is licensed under the MIT License.
 
 ---
-
-This version focuses on the project context and includes detailed information about the GitHub Actions setup. Let me know if there are any additional details you'd like to include!
