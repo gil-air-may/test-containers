@@ -1,5 +1,8 @@
 from fastapi import FastAPI
-from .core import repo
+from core import repo
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI()
 
