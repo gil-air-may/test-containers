@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from core import repo
+from .core import repo
 
 app = FastAPI()
 
