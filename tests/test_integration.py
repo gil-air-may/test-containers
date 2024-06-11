@@ -1,52 +1,55 @@
 from starlette.testclient import TestClient
-from main import app
 import sqlalchemy
-from sqlalchemy import text
+from scripts.database import seed_utils
 import ipdb
-from scripts import utils
-
+from utils import execute_non_query, execute_raw_query
+from config import connections
 
 from testcontainers.mysql import MySqlContainer
 
 
-client = TestClient(app)
-mysql = MySqlContainer("mysql:5.7.17")
+mysql = MySqlContainer("mysql:5.7.17", port=3306)
 mysql.start()
-
 engine = sqlalchemy.create_engine(mysql.get_connection_url())
-seed_commands = utils.get_seed_commands()
+connections["MYSQL"] = mysql.get_connection_url()
 
+from main import app
 
-def execute_raw_query(raw_query, params=None):
-    with engine.connect() as connection:
-        result = connection.execute(text(raw_query))
-        return result.mappings().all()
+client = TestClient(app)
 
-
-def execute_non_query(raw_query, params=None):
-    with engine.connect() as connection:
-        result = connection.execute(text(raw_query))
-        connection.commit()
-        return result
+# ipdb.set_trace()
+seed_commands = seed_utils.get_seed_commands()
 
 
 for statement in seed_commands.split(";"):
-    execute_non_query(statement)
-
-print(mysql.get_connection_url())
-insert = seed_commands.split(";")[2]
+    execute_non_query(engine, statement)
 
 
 def get_all_tabs():
     sql = "select * from Tab"
-    return execute_raw_query(sql)
+    return execute_raw_query(engine, sql)
 
 
 def test_simple_query():
     assert len(get_all_tabs()) == 1
 
 
-def test_read_main():
+def test_hello_world():
     response = client.get("/")
     assert response.status_code == 200
     assert response.json() == {"Hello": "world"}
+
+
+def test_get_all_tabs():
+    response = client.get("/tabs")
+    assert response.status_code == 200
+    assert response.json() == [
+        {
+            "tab_id": 1,
+            "table_number": 1,
+            "is_paid": 0,
+            "items": '[{"name": "chicken_salad", "amount": 1}]',
+            "from_day": "2024-05-18",
+            "created_at": "2024-05-18T20:36:42",
+        }
+    ]

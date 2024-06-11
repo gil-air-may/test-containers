@@ -1,7 +1,8 @@
 import sqlalchemy
+from config import connections
 from sqlalchemy import text
 
-engine = sqlalchemy.create_engine("mysql+mysqldb://gervasgu:gervasgu@0.0.0.0/FoodOps")
+engine = sqlalchemy.create_engine(connections["MYSQL"])
 
 
 def execute_raw_query(raw_query, params=None):
