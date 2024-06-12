@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from core import repo
+from core import repo, cache
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -13,5 +13,10 @@ def read_root():
 
 
 @app.get("/tabs")
-def tabs():
+def get_tabs():
     return repo.get_all_tabs()
+
+
+@app.get("/cache")
+def get_cache(tab: int):
+    return cache.get_cached(tab)

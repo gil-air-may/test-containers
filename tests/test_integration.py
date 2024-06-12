@@ -1,5 +1,4 @@
 from starlette.testclient import TestClient
-import ipdb
 
 
 from main import app
@@ -26,3 +25,16 @@ def test_get_all_tabs():
             "created_at": "2024-05-18T20:36:42",
         }
     ]
+
+
+def test_get_cache():
+    response = client.get("/cache?tab=1")
+    assert response.status_code == 200
+    assert response.json() == {
+        "tab_id": 1,
+        "table_number": 1,
+        "is_paid": 0,
+        "items": '[{"name": "chicken_salad", "amount": 1}]',
+        "from_day": "2024-05-18",
+        "created_at": "2024-05-18T20:36:42",
+    }
