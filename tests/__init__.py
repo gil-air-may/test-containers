@@ -5,7 +5,6 @@ from config import connections
 from scripts.database import seed_utils
 from utils import execute_non_query
 import json
-import ipdb
 
 mysql = MySqlContainer("mysql:5.7.17", port=3306)
 mysql.start()
@@ -20,8 +19,6 @@ for statement in seed_commands.split(";"):
 redis_container = RedisContainer().__enter__()
 redis_client = redis_container.get_client()
 redis_conn = redis_client.get_connection_kwargs()
-
-# ipdb.set_trace()
 
 redis_client.set(
     1,
