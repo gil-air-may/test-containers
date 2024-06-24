@@ -8,6 +8,7 @@ idna==3.7
 iniconfig==2.0.0
 packaging==24.1
 pluggy==1.5.0
+PyMySQL==1.1.1
 pytest==8.2.2
 redis==5.0.6
 requests==2.32.3
